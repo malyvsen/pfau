@@ -7,15 +7,26 @@ let net;
 async function init() {
     net = await handpose.load();
     await tf.data.webcam(webcam);
-    // TODO: set canvas width, height?
+    painting.width = webcam.videoWidth;
+    painting.height = webcam.videoHeight;
 }
 
 
 async function updateUI() {
-    // const result = await net.estimateHands(webcam);
-    // console.log(result);
     paintingContext.drawImage(webcam, 0, 0, painting.width, painting.height);
+    const predictions = await net.estimateHands(webcam);
+    if (predictions.length > 0) {
+        dot(paintingContext, predictions[0].annotations.thumb[0]);
+    }
     await tf.nextFrame();
+}
+
+
+function dot(ctx, position) {
+    console.log(`${position}`);
+    ctx.beginPath();
+    ctx.arc(position[0], position[1], 8, 0, 2 * Math.PI);
+    ctx.fill(); 
 }
 
 

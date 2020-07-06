@@ -1,4 +1,4 @@
-import { webcam } from './webcam.js';
+import { webcam, getFrame } from './webcam.js';
 import { painting } from './paint.js';
 
 
@@ -13,6 +13,11 @@ export async function init() {
 
 
 export async function update() {
-    previewContext.drawImage(webcam, 0, 0, preview.width, preview.height);
-    previewContext.drawImage(painting, 0, 0, preview.width, preview.height);
+    drawImage(previewContext, await getFrame());
+    drawImage(previewContext, painting);
+}
+
+
+function drawImage(ctx, image) {
+    ctx.drawImage(image, 0, 0, ctx.canvas.width, ctx.canvas.height);
 }

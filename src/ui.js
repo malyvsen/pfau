@@ -14,10 +14,13 @@ export async function init() {
 
 export async function update() {
     drawImage(previewContext, await getFrame());
-    drawImage(previewContext, painting);
+    drawImage(previewContext, painting, 0.5);
 }
 
 
-function drawImage(ctx, image) {
+function drawImage(ctx, image, alpha=1) {
+    ctx.save()
+    ctx.globalAlpha = alpha;
     ctx.drawImage(image, 0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.restore();
 }

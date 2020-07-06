@@ -6,11 +6,15 @@ import * as paint from './paint.js';
 import * as ui from './ui.js';
 
 
-async function main() {
+async function init() {
     await ai.init();
     await webcam.init();
     await paint.init();
     await ui.init();
+}
+
+
+async function main() {
     while (true) {
         await paint.paint();
         await ui.update();
@@ -19,4 +23,4 @@ async function main() {
 }
 
 
-main();
+init().then(_ => main());

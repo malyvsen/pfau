@@ -16,8 +16,10 @@ async function init() {
 
 async function main() {
     while (true) {
-        await paint.paint();
-        await ui.update();
+        const frame = await webcam.getFrame();
+        const points = await ai.getPoints(frame);
+        const painting = await paint.paint(points);
+        await ui.update(frame, painting);
         await tf.nextFrame();
     }
 }

@@ -1,9 +1,8 @@
 import { webcam } from './webcam.js';
-import { getFingers } from './ai.js';
 
 
-export const painting = document.createElement('canvas');
-export const paintingContext = painting.getContext('2d');
+const painting = document.createElement('canvas');
+const paintingContext = painting.getContext('2d');
 
 
 export async function init() {
@@ -12,11 +11,10 @@ export async function init() {
 }
 
 
-export async function paint() {
-    const fingers = await getFingers();
-    if (fingers == null) return;
+export async function paint(points) {
+    if (points == null) return painting;
     const controlPoints = ['thumb', 'pinky'].map(
-        name => fingers[name][fingers[name].length - 1]
+        name => points[name][points[name].length - 1]
     );
     const dotCenter = controlPoints.reduce(
         (cum, curr) => [cum[0] + curr[0], cum[1] + curr[1]],
@@ -26,6 +24,7 @@ export async function paint() {
         point => Math.pow(dotCenter[0] - point[0], 2) + Math.pow(dotCenter[1] - point[1], 2)
     ).reduce((cum, curr) => cum + curr, 0)) * 0.75;
     dot(paintingContext, dotCenter, dotRadius);
+    return painting;
 }
 
 

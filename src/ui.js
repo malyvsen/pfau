@@ -1,9 +1,8 @@
-import { webcam, getFrame } from './webcam.js';
-import { painting } from './paint.js';
+import { webcam } from './webcam.js';
 
 
-export const preview = document.getElementById('preview');
-export const previewContext = preview.getContext('2d');
+const preview = document.getElementById('preview');
+const previewContext = preview.getContext('2d');
 
 
 export async function init() {
@@ -12,8 +11,8 @@ export async function init() {
 }
 
 
-export async function update() {
-    drawImage(previewContext, await getFrame());
+export async function update(frame, painting) {
+    drawImage(previewContext, frame);
     drawImage(previewContext, painting, 0.5);
 }
 

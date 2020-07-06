@@ -1,5 +1,4 @@
 import * as handpose from '@tensorflow-models/handpose';
-import { getFrame } from './webcam.js';
 
 
 let net;
@@ -10,8 +9,8 @@ export async function init() {
 }
 
 
-export async function getFingers() {
-    const predictions = await net.estimateHands(await getFrame());
+export async function getPoints(frame) {
+    const predictions = await net.estimateHands(frame);
     if (predictions.length == 0) return null;
     return predictions[0].annotations;
 }

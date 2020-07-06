@@ -15,14 +15,24 @@ export async function init() {
 export async function paint() {
     const fingers = await getFingers();
     if (fingers == null) return;
-    dot(paintingContext, fingers.thumb[0]);
+    const fingertips = ['thumb', 'indexFinger', 'middleFinger', 'ringFinger', 'pinky'].map(
+        name => fingers[name][fingers[name].length - 1]
+    );
+    const dotCenter = fingertips.reduce(
+        (cum, curr) => [cum[0] + curr[0], cum[1] + curr[1]],
+        [0, 0]
+    ).map(val => val / fingertips.length);
+    const dotRadius = Math.sqrt(fingertips.map(
+        tip => Math.pow(dotCenter[0] - tip[0], 2) + Math.pow(dotCenter[1] - tip[1], 2)
+    ).reduce((cum, curr) => cum + curr, 0)) / fingertips.length;
+    dot(paintingContext, dotCenter, dotRadius);
 }
 
 
-function dot(ctx, position) {
+function dot(ctx, position, radius) {
     ctx.save();
     ctx.beginPath();
-    ctx.arc(position[0], position[1], 8, 0, 2 * Math.PI);
+    ctx.arc(position[0], position[1], radius, 0, 2 * Math.PI);
     ctx.fill();
     ctx.restore(); 
 }

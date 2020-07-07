@@ -40,7 +40,7 @@ function drawImage(ctx, image, alpha=1) {
 
 function drawButton(ctx, text, cursorPos, verticalOffset=0) {
     const screenCenter = [ctx.canvas.width / 2, ctx.canvas.height / 2];
-    const size = [128, 64];
+    const size = [256, 64];
 
     ctx.save();
     ctx.globalAlpha = 0.5;
@@ -53,6 +53,7 @@ function drawButton(ctx, text, cursorPos, verticalOffset=0) {
 
     ctx.fillStyle = 'black';
     ctx.font = '24px Poiret One';
+    ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
     ctx.fillText(text, screenCenter[0], screenCenter[1] + verticalOffset);
     ctx.restore();

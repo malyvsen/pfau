@@ -1,5 +1,11 @@
 import { webcam } from './webcam.js';
-import { drawDot } from './utils.js';
+import { drawDot, eraseDot } from './utils.js';
+
+
+export const brushes = {
+    brush: 'brush',
+    eraser: 'eraser'
+};
 
 
 export const painting = document.createElement('canvas');
@@ -12,6 +18,13 @@ export async function init() {
 }
 
 
-export async function paint(cursor) {
-    drawDot(paintingContext, cursor.center, cursor.radius);
+export async function paint(cursor, brush) {
+    switch (brush) {
+        case brushes.brush:
+            drawDot(paintingContext, cursor.center, cursor.radius)
+            break;
+        case brushes.eraser:
+            eraseDot(paintingContext, cursor.center, cursor.radius);
+            break;
+    }
 }

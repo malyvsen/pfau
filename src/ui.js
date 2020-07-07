@@ -4,7 +4,8 @@ import { drawImage, drawButton } from './utils.js';
 
 export const choices = {
     none: 'none',
-    brush: 'brush'
+    brush: 'brush',
+    eraser: 'eraser'
 };
 
 
@@ -26,6 +27,8 @@ export async function drawPainting(frame, painting) {
 
 export async function drawMenu(frame, cursor) {
     drawImage(context, frame);
-    if (drawButton(context, 'Brush', cursor)) return choices.brush;
-    return choices.none;
+    let choice = choices.none;
+    if (drawButton(context, 'Brush', cursor, [0, 64])) choice = choices.brush;
+    if (drawButton(context, 'Eraser', cursor, [0, -64])) choice = choices.eraser;
+    return choice;
 }

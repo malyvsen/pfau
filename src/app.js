@@ -14,6 +14,7 @@ const states = {
 
 
 let state = states.preMenu;
+let brush = paint.brushes.brush;
 
 
 export async function update() {
@@ -22,7 +23,7 @@ export async function update() {
     const cursor = await hand.getHand(points);
     switch (state) {
         case states.painting:
-            if (points != null) await paint.paint(cursor);
+            if (points != null) await paint.paint(cursor, brush);
             await ui.drawPainting(frame, paint.painting);
             if (cursor.gesture == hand.gestures.fist) state = states.preMenu;
             break;
@@ -34,6 +35,11 @@ export async function update() {
             const choice = await ui.drawMenu(frame, cursor);
             switch (choice) {
                 case ui.choices.brush:
+                    brush = paint.brushes.brush;
+                    state = states.postMenu;
+                    break;
+                case ui.choices.eraser:
+                    brush = paint.brushes.eraser;
                     state = states.postMenu;
                     break;
             }

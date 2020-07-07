@@ -1,12 +1,19 @@
 import { gestures } from "./hand";
 
 
-export function drawDot(ctx, position, radius) {
+export function drawDot(ctx, position, radius, fillStyle='black', blendMode='source-over') {
     ctx.save();
+    ctx.globalCompositeOperation = blendMode;
+    ctx.fillStyle = fillStyle;
     ctx.beginPath();
     ctx.arc(position[0], position[1], radius, 0, 2 * Math.PI);
     ctx.fill();
     ctx.restore();
+}
+
+
+export function eraseDot(ctx, position, radius) {
+    drawDot(ctx, position, radius, 'black', 'destination-out');
 }
 
 

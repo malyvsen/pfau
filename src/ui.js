@@ -25,7 +25,7 @@ export async function drawPainting(frame, painting) {
 
 export async function drawMenu(frame, cursor) {
     drawImage(context, frame);
-    if(drawButton(context, 'Back to drawing', cursor ? cursor.center : [null, null])) return choices.brush;
+    if(drawButton(context, 'Back to drawing', cursor ? cursor.center : undefined)) return choices.brush;
     return choices.none;
 }
 
@@ -57,6 +57,7 @@ function drawButton(ctx, text, cursorPos, verticalOffset=0) {
     ctx.fillText(text, screenCenter[0], screenCenter[1] + verticalOffset);
     ctx.restore();
 
+    if (cursorPos == undefined) return false;
     return (
         cursorPos[0] >= screenCenter[0] - size[0] / 2 &&
         cursorPos[1] >= screenCenter[1] - size[1] / 2 &&

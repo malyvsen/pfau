@@ -1,5 +1,5 @@
 import { webcam } from './webcam.js';
-import { getFingerPoints, getDistanceSquared } from './gesture.js';
+import { drawDot } from './utils.js';
 
 
 export const painting = document.createElement('canvas');
@@ -13,14 +13,5 @@ export async function init() {
 
 
 export async function paint(cursor) {
-    dot(paintingContext, cursor.center, cursor.radius);
-}
-
-
-function dot(ctx, position, radius) {
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(position[0], position[1], radius, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.restore(); 
+    drawDot(paintingContext, cursor.center, cursor.radius);
 }

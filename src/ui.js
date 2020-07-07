@@ -1,4 +1,5 @@
 import { webcam } from './webcam.js';
+import { drawImage, drawButton } from './utils.js';
 
 
 export const choices = {
@@ -25,44 +26,6 @@ export async function drawPainting(frame, painting) {
 
 export async function drawMenu(frame, cursor) {
     drawImage(context, frame);
-    if(drawButton(context, 'Back to drawing', cursor ? cursor.center : undefined)) return choices.brush;
+    if (drawButton(context, 'Back to drawing', cursor ? cursor.center : undefined)) return choices.brush;
     return choices.none;
-}
-
-
-function drawImage(ctx, image, alpha=1) {
-    ctx.save()
-    ctx.globalAlpha = alpha;
-    ctx.drawImage(image, 0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.restore();
-}
-
-
-function drawButton(ctx, text, cursorPos, verticalOffset=0) {
-    const screenCenter = [ctx.canvas.width / 2, ctx.canvas.height / 2];
-    const size = [256, 64];
-
-    ctx.save();
-    ctx.globalAlpha = 0.5;
-    ctx.fillStyle = 'white';
-    ctx.fillRect(
-        screenCenter[0] - size[0] / 2,
-        screenCenter[1] - size[1] / 2,
-        ...size
-    );
-
-    ctx.fillStyle = 'black';
-    ctx.font = '24px Poiret One';
-    ctx.textBaseline = 'middle';
-    ctx.textAlign = 'center';
-    ctx.fillText(text, screenCenter[0], screenCenter[1] + verticalOffset);
-    ctx.restore();
-
-    if (cursorPos == undefined) return false;
-    return (
-        cursorPos[0] >= screenCenter[0] - size[0] / 2 &&
-        cursorPos[1] >= screenCenter[1] - size[1] / 2 &&
-        cursorPos[0] <= screenCenter[0] + size[0] / 2 &&
-        cursorPos[1] <= screenCenter[1] + size[1] / 2
-    );
 }

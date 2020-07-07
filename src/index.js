@@ -4,6 +4,7 @@ import * as ai from './ai.js';
 import * as gesture from './gesture.js';
 import * as webcam from './webcam.js';
 import * as paint from './paint.js';
+import * as state from './state.js';
 import * as ui from './ui.js';
 
 
@@ -24,7 +25,8 @@ async function main() {
             case gesture.open:
                 await paint.paint(points);
         }
-        await ui.update(frame, paint.painting);
+        await state.updateState(currentGesture);
+        await ui.update(frame, paint.painting, state.state);
         await tf.nextFrame();
     }
 }

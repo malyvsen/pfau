@@ -43,7 +43,7 @@ export function drawButton(ctx, text, cursor, centerOffset=[0, 0]) {
     );
 
     ctx.fillStyle = 'black';
-    ctx.font = 'bold 24px Poiret One';
+    ctx.font = '24px Major Mono Display';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
     ctx.fillText(text, center[0], center[1]);

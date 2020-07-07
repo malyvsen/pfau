@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
 html * {
-    font-family: 'Poiret One', cursive;
+    font-family: 'Major Mono Display', monospace;
     font-size: 6mm;
     text-align: center;
     background-color: black;

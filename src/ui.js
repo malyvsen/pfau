@@ -28,7 +28,7 @@ export async function drawPainting(frame, painting) {
 export async function drawMenu(frame, cursor) {
     drawImage(context, frame);
     let choice = choices.none;
-    if (drawButton(context, 'Brush', cursor, [0, 64])) choice = choices.brush;
-    if (drawButton(context, 'Eraser', cursor, [0, -64])) choice = choices.eraser;
+    if (drawButton(context, 'brush', cursor, [0, 64])) choice = choices.brush;
+    if (drawButton(context, 'eraser', cursor, [0, -64])) choice = choices.eraser;
     return choice;
 }

@@ -18,31 +18,40 @@ export function drawImage(ctx, image, alpha=1) {
 }
 
 
-export function drawButton(ctx, text, cursor, verticalOffset=0) {
-    const screenCenter = [ctx.canvas.width / 2, ctx.canvas.height / 2];
+export function drawButton(ctx, text, cursor, centerOffset=[0, 0]) {
+    const center = [
+        ctx.canvas.width / 2 + centerOffset[0],
+        ctx.canvas.height / 2 + centerOffset[1]
+    ];
     const size = [256, 64];
+    const cursorIn = cursor.gesture != undefined && inBox(cursor.center, center, size);
 
     ctx.save();
     ctx.globalAlpha = 0.5;
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = cursorIn ? 'gray' : 'white';
     ctx.fillRect(
-        screenCenter[0] - size[0] / 2,
-        screenCenter[1] - size[1] / 2,
+        center[0] - size[0] / 2,
+        center[1] - size[1] / 2,
         ...size
     );
 
     ctx.fillStyle = 'black';
-    ctx.font = '24px Poiret One';
+    ctx.font = 'bold 24px Poiret One';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
-    ctx.fillText(text, screenCenter[0], screenCenter[1] + verticalOffset);
+    ctx.fillText(text, center[0], center[1]);
     ctx.restore();
 
     if (cursor.gesture != gestures.fist) return false;
+    return cursorIn;
+}
+
+
+function inBox(position, boxCenter, boxSize) {
     return (
-        cursor.center[0] >= screenCenter[0] - size[0] / 2 &&
-        cursor.center[1] >= screenCenter[1] - size[1] / 2 &&
-        cursor.center[0] <= screenCenter[0] + size[0] / 2 &&
-        cursor.center[1] <= screenCenter[1] + size[1] / 2
+        position[0] >= boxCenter[0] - boxSize[0] / 2 &&
+        position[1] >= boxCenter[1] - boxSize[1] / 2 &&
+        position[0] <= boxCenter[0] + boxSize[0] / 2 &&
+        position[1] <= boxCenter[1] + boxSize[1] / 2
     );
 }

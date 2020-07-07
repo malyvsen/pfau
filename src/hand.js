@@ -1,10 +1,16 @@
-export const none = 'none';
-export const open = 'open';
-export const fist = 'fist';
+export const gestures = {
+    open: 'open',
+    fist: 'fist'
+}
 
 
-export async function getGesture(points) {
-    if (points == null) return none;
+export async function getHand(points) {
+    if (points == null) return {gesture: undefined, center: undefined, radius: undefined};
+    return {gesture: getGesture(points), ...getCursor(points)};
+}
+
+
+function getGesture(points) {
     const fourFingers = ['indexFinger', 'middleFinger', 'ringFinger', 'pinky']
     const fourTips = getFingerPoints(points, 3, fourFingers);
     const fourMids = getFingerPoints(points, 1, fourFingers);
@@ -12,13 +18,11 @@ export async function getGesture(points) {
     const numBent = fourFingers.map(
         (finger, idx) => getDistanceSquared(fourTips[idx], palmBase) < getDistanceSquared(fourMids[idx], palmBase)
     ).reduce((cum, curr) => cum + curr, 0);
-    if (numBent >= 3) return fist;
-    return open;
+    return numBent >= 3 ? gestures.fist : gestures.open;
 }
 
 
-export async function getCursor(points) {
-    if (points == null) return null;
+function getCursor(points) {
     const controlPoints = getFingerPoints(points, 3, ['thumb', 'pinky']);
     const center = controlPoints.reduce(
         (cum, curr) => [cum[0] + curr[0], cum[1] + curr[1]],

@@ -26,6 +26,6 @@ export async function drawPainting(frame, painting) {
 
 export async function drawMenu(frame, cursor) {
     drawImage(context, frame);
-    if (drawButton(context, 'Back to drawing', cursor ? cursor.center : undefined)) return choices.brush;
+    if (drawButton(context, 'Brush', cursor)) return choices.brush;
     return choices.none;
 }

@@ -1,5 +1,5 @@
 import * as ai from './ai.js';
-import * as gesture from './gesture.js';
+import * as hand from './hand.js';
 import * as webcam from './webcam.js';
 import * as paint from './paint.js';
 import * as ui from './ui.js';
@@ -7,31 +7,40 @@ import * as ui from './ui.js';
 
 const states = {
     painting: 'painting',
-    menu: 'menu'
+    preMenu: 'preMenu',
+    menu: 'menu',
+    postMenu: 'postMenu'
 };
 
 
-let state = states.painting;
+let state = states.preMenu;
 
 
 export async function update() {
     const frame = await webcam.getFrame();
     const points = await ai.getPoints(frame);
-    const currentGesture = await gesture.getGesture(points);
-    const cursor = await gesture.getCursor(points);
-    if (currentGesture == gesture.fist) state = states.menu;
+    const cursor = await hand.getHand(points);
     switch (state) {
         case states.painting:
-            if (cursor != null) await paint.paint(cursor);
+            if (points != null) await paint.paint(cursor);
             await ui.drawPainting(frame, paint.painting);
+            if (cursor.gesture == hand.gestures.fist) state = states.preMenu;
+            break;
+        case states.preMenu:
+            await ui.drawMenu(frame, cursor);
+            if (cursor.gesture == hand.gestures.open) state = states.menu;
             break;
         case states.menu:
             const choice = await ui.drawMenu(frame, cursor);
             switch (choice) {
                 case ui.choices.brush:
-                    state = states.painting;
+                    state = states.postMenu;
                     break;
             }
+            break;
+        case states.postMenu:
+            await ui.drawPainting(frame, paint.painting);
+            if (cursor.gesture == hand.gestures.open) state = states.painting;
             break;
     }
 }

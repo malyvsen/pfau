@@ -8,6 +8,6 @@
     "webpack-cli": "^3.3.12"
   },
   "scripts": {
-    "test": "webpack --mode=development && xdg-open index.html"
+    "test": "webpack --mode=development --devtool=inline-source-map && xdg-open index.html"
   }
 }

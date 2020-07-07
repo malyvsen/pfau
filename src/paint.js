@@ -12,16 +12,8 @@ export async function init() {
 }
 
 
-export async function paint(points) {
-    const controlPoints = getFingerPoints(points, 3, ['thumb', 'pinky']);
-    const dotCenter = controlPoints.reduce(
-        (cum, curr) => [cum[0] + curr[0], cum[1] + curr[1]],
-        [0, 0]
-    ).map(val => val / controlPoints.length);
-    const dotRadius = Math.sqrt(controlPoints.map(
-        point => getDistanceSquared(dotCenter, point.slice(0, 2))
-    ).reduce((cum, curr) => cum + curr, 0)) * 0.75;
-    dot(paintingContext, dotCenter, dotRadius);
+export async function paint(cursor) {
+    dot(paintingContext, cursor.center, cursor.radius);
 }
 
 

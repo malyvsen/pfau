@@ -1,11 +1,10 @@
 import * as tf from '@tensorflow/tfjs';
 
 import * as ai from './ai.js';
-import * as gesture from './gesture.js';
 import * as webcam from './webcam.js';
 import * as paint from './paint.js';
-import * as state from './state.js';
 import * as ui from './ui.js';
+import * as app from './app.js';
 
 
 async function init() {
@@ -18,15 +17,7 @@ async function init() {
 
 async function main() {
     while (true) {
-        const frame = await webcam.getFrame();
-        const points = await ai.getPoints(frame);
-        const currentGesture = await gesture.getGesture(points);
-        switch (currentGesture) {
-            case gesture.open:
-                await paint.paint(points);
-        }
-        await state.updateState(currentGesture);
-        await ui.update(frame, paint.painting, state.state);
+        await app.update();
         await tf.nextFrame();
     }
 }

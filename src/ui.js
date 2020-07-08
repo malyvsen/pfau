@@ -1,5 +1,5 @@
 import { webcam } from './webcam.js';
-import { drawImage, drawButton } from './utils/canvas.js';
+import { drawImage, drawButton, drawDot } from './utils/canvas.js';
 
 
 export const choices = {
@@ -19,16 +19,20 @@ export async function init() {
 }
 
 
-export async function drawPainting(frame, painting) {
+export async function drawPainting(frame, painting, cursor) {
     drawImage(context, frame);
-    drawImage(context, painting, 0.5);
+    drawImage(context, painting, alpha);
+    if(cursor) drawDot(context, cursor.center, cursor.radius, `rgba(127, 0, 127, ${alpha})`);
 }
 
 
 export async function drawMenu(frame, cursor) {
     drawImage(context, frame);
     let choice = choices.none;
-    if (drawButton(context, 'brush', cursor, [0, 64])) choice = choices.brush;
-    if (drawButton(context, 'eraser', cursor, [0, -64])) choice = choices.eraser;
+    if (drawButton(context, 'brush', cursor, [0, 64], alpha)) choice = choices.brush;
+    if (drawButton(context, 'eraser', cursor, [0, -64], alpha)) choice = choices.eraser;
     return choice;
 }
+
+
+const alpha = 0.75;

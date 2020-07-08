@@ -16,7 +16,7 @@ const states = {
 
 let state = states.preMenu;
 let brush = paint.brushes.brush;
-const interpolator = new Interpolator(3);
+const interpolator = new Interpolator(5);
 
 
 export async function update() {
@@ -27,7 +27,7 @@ export async function update() {
     switch (state) {
         case states.painting:
             if (cursor != null) await paint.paint(cursor, brush);
-            await ui.drawPainting(frame, paint.painting);
+            await ui.drawPainting(frame, paint.painting, cursor);
             if (hand.checkGesture(cursor, hand.gestures.fist)) state = states.preMenu;
             break;
         case states.preMenu:
@@ -48,7 +48,7 @@ export async function update() {
             }
             break;
         case states.postMenu:
-            await ui.drawPainting(frame, paint.painting);
+            await ui.drawPainting(frame, paint.painting, cursor);
             if (hand.checkGesture(cursor, hand.gestures.open)) state = states.painting;
             break;
     }

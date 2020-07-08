@@ -25,7 +25,7 @@ export function drawImage(ctx, image, alpha=1) {
 }
 
 
-export function drawButton(ctx, text, cursor, centerOffset=[0, 0]) {
+export function drawButton(ctx, text, cursor, centerOffset=[0, 0], alpha=1) {
     const center = [
         ctx.canvas.width / 2 + centerOffset[0],
         ctx.canvas.height / 2 + centerOffset[1]
@@ -34,7 +34,7 @@ export function drawButton(ctx, text, cursor, centerOffset=[0, 0]) {
     const cursorIn = cursor && inBox(cursor.center, center, size);
 
     ctx.save();
-    ctx.globalAlpha = 0.5;
+    ctx.globalAlpha = alpha;
     ctx.fillStyle = cursorIn ? 'gray' : 'white';
     ctx.fillRect(
         center[0] - size[0] / 2,

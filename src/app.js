@@ -1,5 +1,6 @@
 import * as ai from './ai.js';
 import * as hand from './hand.js';
+import { Interpolator } from './interp.js';
 import * as webcam from './webcam.js';
 import * as paint from './paint.js';
 import * as ui from './ui.js';
@@ -15,21 +16,23 @@ const states = {
 
 let state = states.preMenu;
 let brush = paint.brushes.brush;
+const interpolator = new Interpolator(3);
 
 
 export async function update() {
     const frame = await webcam.getFrame();
     const points = await ai.getPoints(frame);
-    const cursor = await hand.getHand(points);
+    interpolator.accumulate(await hand.getHand(points));
+    const cursor = interpolator.interpolated();
     switch (state) {
         case states.painting:
-            if (points != null) await paint.paint(cursor, brush);
+            if (cursor != null) await paint.paint(cursor, brush);
             await ui.drawPainting(frame, paint.painting);
-            if (cursor.gesture == hand.gestures.fist) state = states.preMenu;
+            if (checkGesture(cursor, hand.gestures.fist)) state = states.preMenu;
             break;
         case states.preMenu:
             await ui.drawMenu(frame, cursor);
-            if (cursor.gesture == hand.gestures.open) state = states.menu;
+            if (checkGesture(cursor, hand.gestures.open)) state = states.menu;
             break;
         case states.menu:
             const choice = await ui.drawMenu(frame, cursor);
@@ -46,7 +49,12 @@ export async function update() {
             break;
         case states.postMenu:
             await ui.drawPainting(frame, paint.painting);
-            if (cursor.gesture == hand.gestures.open) state = states.painting;
+            if (checkGesture(cursor, hand.gestures.open)) state = states.painting;
             break;
     }
+}
+
+
+function checkGesture(cursor, gesture) {
+    return cursor && cursor.gesture == gesture;
 }

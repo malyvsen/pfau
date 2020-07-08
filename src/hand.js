@@ -5,7 +5,7 @@ export const gestures = {
 
 
 export async function getHand(points) {
-    if (points == null) return {gesture: undefined, center: undefined, radius: undefined};
+    if (points == null) return null;
     return {gesture: getGesture(points), ...getCursor(points)};
 }
 

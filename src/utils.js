@@ -31,7 +31,7 @@ export function drawButton(ctx, text, cursor, centerOffset=[0, 0]) {
         ctx.canvas.height / 2 + centerOffset[1]
     ];
     const size = [256, 64];
-    const cursorIn = cursor.gesture != undefined && inBox(cursor.center, center, size);
+    const cursorIn = cursor && inBox(cursor.center, center, size);
 
     ctx.save();
     ctx.globalAlpha = 0.5;
@@ -49,7 +49,7 @@ export function drawButton(ctx, text, cursor, centerOffset=[0, 0]) {
     ctx.fillText(text, center[0], center[1]);
     ctx.restore();
 
-    if (cursor.gesture != gestures.fist) return false;
+    if (!cursor || cursor.gesture != gestures.fist) return false;
     return cursorIn;
 }
 

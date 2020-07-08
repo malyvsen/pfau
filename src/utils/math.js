@@ -1,3 +1,6 @@
+export const sum = arr => arr.reduce((cum, curr) => cum + curr, 0);
+
+
 export function mean(arr) {
     if (arr.length == 0) return null;
     return arr.reduce((curr, cum) => curr + cum) / arr.length;

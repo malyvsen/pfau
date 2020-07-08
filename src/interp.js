@@ -1,4 +1,4 @@
-import { mode, mean, vectorMean } from './math.js';
+import { mode, mean, vectorMean } from './utils/math.js';
 
 
 export class Interpolator {

@@ -28,11 +28,11 @@ export async function update() {
         case states.painting:
             if (cursor != null) await paint.paint(cursor, brush);
             await ui.drawPainting(frame, paint.painting);
-            if (checkGesture(cursor, hand.gestures.fist)) state = states.preMenu;
+            if (hand.checkGesture(cursor, hand.gestures.fist)) state = states.preMenu;
             break;
         case states.preMenu:
             await ui.drawMenu(frame, cursor);
-            if (checkGesture(cursor, hand.gestures.open)) state = states.menu;
+            if (hand.checkGesture(cursor, hand.gestures.open)) state = states.menu;
             break;
         case states.menu:
             const choice = await ui.drawMenu(frame, cursor);
@@ -49,12 +49,7 @@ export async function update() {
             break;
         case states.postMenu:
             await ui.drawPainting(frame, paint.painting);
-            if (checkGesture(cursor, hand.gestures.open)) state = states.painting;
+            if (hand.checkGesture(cursor, hand.gestures.open)) state = states.painting;
             break;
     }
-}
-
-
-function checkGesture(cursor, gesture) {
-    return cursor && cursor.gesture == gesture;
 }

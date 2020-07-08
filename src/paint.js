@@ -1,5 +1,5 @@
 import { webcam } from './webcam.js';
-import { drawDot, eraseDot } from './utils.js';
+import { drawDot, eraseDot } from './utils/canvas.js';
 
 
 export const brushes = {

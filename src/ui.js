@@ -1,5 +1,5 @@
 import { webcam } from './webcam.js';
-import { drawImage, drawButton } from './utils.js';
+import { drawImage, drawButton } from './utils/canvas.js';
 
 
 export const choices = {

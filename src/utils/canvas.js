@@ -1,4 +1,4 @@
-import { gestures } from "./hand";
+import { gestures, checkGesture } from '../hand.js';
 
 
 export function drawDot(ctx, position, radius, fillStyle='black', blendMode='source-over') {
@@ -49,7 +49,7 @@ export function drawButton(ctx, text, cursor, centerOffset=[0, 0]) {
     ctx.fillText(text, center[0], center[1]);
     ctx.restore();
 
-    if (!cursor || cursor.gesture != gestures.fist) return false;
+    if (!checkGesture(cursor, gestures.fist)) return false;
     return cursorIn;
 }
 
